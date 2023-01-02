@@ -30,4 +30,23 @@ class Product extends Model
             get: fn ($value) => asset('/storage/products/' . $value),
         );
     }
+
+    /**
+     * Category
+     * @return void
+     */
+    public function Category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    /**
+     * carts
+     *
+     * @return void
+     */
+    public function Carts()
+    {
+        return $this->hasMany(Cart::class);
+    }
 }
