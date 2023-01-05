@@ -20,9 +20,11 @@ class CategoryController extends Controller
      */
     public function index(): View
     {
-        $categories = Category::latest()->when(request()->q, function ($categories) {
+        $categories = Category::latest()
+            ->when(request()->q, function ($categories) {
             $categories = $categories->where('name', 'like', '%' . request()->q . '%');
-        })->paginate(10);
+        })
+            ->paginate(10);
         return view('admin.category.index', [
             'categories' => $categories,
         ]);

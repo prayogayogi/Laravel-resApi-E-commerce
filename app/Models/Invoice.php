@@ -23,7 +23,7 @@ class Invoice extends Model
      *
      * @return void
      */
-    public function Order()
+    public function Orders()
     {
         return $this->hasMany(Order::class);
     }
@@ -33,7 +33,7 @@ class Invoice extends Model
      *
      * @return void
      */
-    public function customer()
+    public function Customer()
     {
         return $this->belongsTo(Customer::class);
     }
