@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\CheckoutController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\RajaOngkirController;
+use App\Http\Controllers\Api\SliderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -73,3 +74,8 @@ Route::post('/rajaongkir/checkOngkir', [RajaOngkirController::class, 'checkOngki
  */
 Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
 Route::post('/notificationHandler', [CheckoutController::class, 'notificationHandler'])->name('notificationHanlder');
+
+/**
+ * Route API Slider
+ */
+Route::get('/sliders', [SliderController::class, 'index'])->name('customer.slider.index');
