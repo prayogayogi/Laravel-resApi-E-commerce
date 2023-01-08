@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\CheckoutController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\RajaOngkirController;
@@ -66,3 +67,9 @@ Route::post('/cart/removeAll', [CartController::class, 'removeAllCart'])->name('
 Route::get('/rajaongkir/provinces', [RajaOngkirController::class, 'getProvinces'])->name('customer.rajaongkir.getProvinces');
 Route::get('/rajaongkir/cities', [RajaOngkirController::class, 'getCities'])->name('customer.rajaongkir.getCities');
 Route::post('/rajaongkir/checkOngkir', [RajaOngkirController::class, 'checkOngkir'])->name('customer.rajaongkir.checkOngkir');
+
+/**
+ * Route Checkout
+ */
+Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+Route::post('/notificationHandler', [CheckoutController::class, 'notificationHandler'])->name('notificationHanlder');
