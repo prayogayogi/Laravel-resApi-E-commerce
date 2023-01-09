@@ -12,7 +12,7 @@ class ProductController extends Controller
     /**
      * index
      *
-     * @return void
+     * @return JsonResponse
      */
     public function index(): JsonResponse
     {
@@ -29,7 +29,7 @@ class ProductController extends Controller
      * show
      *
      * @param mixed $slug
-     * @return void
+     * @return JsonResponse
      */
     public function show($slug): JsonResponse
     {

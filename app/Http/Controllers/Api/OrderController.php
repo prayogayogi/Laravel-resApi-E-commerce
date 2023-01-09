@@ -17,7 +17,7 @@ class OrderController extends Controller
     /**
      * index
      *
-     * @return void
+     * @return JsonResponse
      */
     public function index(): JsonResponse
     {
@@ -34,11 +34,12 @@ class OrderController extends Controller
      * show
      *
      * @param mixed $snap_token
-     * @return void
+     * @return JsonResponse
      */
     public function show($snap_token): JsonResponse
     {
-        $invoice = Invoice::where('customer_id', auth()->guard('api')->user()->id)->whereSnap_token($snap_token)->latest()->first();
+        $invoice = Invoice::where('customer_id', auth()->guard('api')->user()->id)->whereSnap_token($snap_token)
+                            ->latest()->first();
 
         return response()->json([
            'success'    => true,

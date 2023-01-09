@@ -5,15 +5,16 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
     /**
      * index
      *
-     * @return void
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
         //count invoice
         $pending = Invoice::whereStatus('pending')->count();

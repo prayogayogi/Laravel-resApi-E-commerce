@@ -12,7 +12,7 @@ class SliderController extends Controller
     /**
      * index
      *
-     * @return void
+     * @return JsonResponse
      */
     public function index(): JsonResponse
     {

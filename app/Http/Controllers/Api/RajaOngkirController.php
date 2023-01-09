@@ -14,7 +14,7 @@ class RajaOngkirController extends Controller
     /**
      * getProvinces
      *
-     * @param mixedb $request
+     * @param mixed $request
      * @return JsonResponse
      */
     public function getProvinces(Request $request): JsonResponse

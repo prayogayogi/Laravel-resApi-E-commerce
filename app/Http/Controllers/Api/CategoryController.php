@@ -11,7 +11,7 @@ class CategoryController extends Controller
     /**
      * index
      *
-     * @return void
+     * @return JsonResponse
      */
     public function index(): JsonResponse
     {
@@ -28,7 +28,7 @@ class CategoryController extends Controller
      * show
      *
      * @param mixed slug
-     * @return void
+     * @return JsonResponse
      */
     public function show($slug): JsonResponse
     {
@@ -52,7 +52,7 @@ class CategoryController extends Controller
     /**
      * categoryHeader
      *
-     * @return void
+     * @return JsonResponse
      */
     public function categoryHeader(): JsonResponse
     {

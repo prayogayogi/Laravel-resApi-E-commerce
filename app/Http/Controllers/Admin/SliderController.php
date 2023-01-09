@@ -28,8 +28,8 @@ class SliderController extends Controller
     /**
      * store
      *
-     * @params mixed $request
-     * @return void
+     * @param mixed $request
+     * @return RedirectResponse
      */
     public function store(Request $request): RedirectResponse
     {
@@ -58,8 +58,8 @@ class SliderController extends Controller
     /**
      * destroy
      *
-     * @param  mixed $id
-     * @return void
+     * @param  mixed $slider
+     * @return JsonResponse
      */
     public function destroy(Slider $slider): JsonResponse
     {

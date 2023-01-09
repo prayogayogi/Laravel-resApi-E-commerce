@@ -66,7 +66,7 @@ class AuthController extends Controller
      * register
      *
      * @param mixed $request
-     * @return JesonResponse
+     * @return JsonResponse
      */
     public function login(Request $request): JsonResponse
     {
@@ -99,7 +99,7 @@ class AuthController extends Controller
     /**
      * getUser
      *
-     * return JsonResponse
+     * @return JsonResponse
      */
     public function getUser(): JsonResponse
     {

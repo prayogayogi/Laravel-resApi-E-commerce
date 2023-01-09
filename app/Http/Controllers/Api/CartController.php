@@ -17,14 +17,11 @@ class CartController extends Controller
     /**
      * index
      *
-     * @return void
+     * @return JsonResponse
      */
     public function index(): JsonResponse
     {
-        $carts = Cart::with(['Product'])
-                    ->whereCustomer_id(auth()->user()->id)
-                    ->orderBy('created_at', 'desc')
-                    ->get();
+        $carts = Cart::with(['Product'])->whereCustomer_id(auth()->user()->id)->orderBy('created_at', 'desc')->get();
         return response()->json([
            'success' => true,
            'message' => 'List Data Cart',
@@ -36,12 +33,11 @@ class CartController extends Controller
      * store
      *
      * @param mixed $request
-     * @return void
+     * @return JsonResponse
      */
     public function store(Request $request): JsonResponse
     {
-        $item = Cart::whereProduct_id($request->input('product_id'))
-                    ->whereCustomer_id($request->input('customer_id'));
+        $item = Cart::whereProduct_id($request->input('product_id'))->whereCustomer_id($request->input('customer_id'));
         if($item->count()){
 
             // Incerment quantity
@@ -78,7 +74,7 @@ class CartController extends Controller
     /**
      * getCartTotal
      *
-     * @return void
+     * @return JsonResponse
      */
     public function getCartTotal(): JsonResponse
     {
@@ -94,7 +90,7 @@ class CartController extends Controller
     /**
      * getCartTotalWeight
      *
-     * @return void
+     * @return JsonResponse
      */
     public function getCartTotalWeight(): JsonResponse
     {
@@ -111,7 +107,7 @@ class CartController extends Controller
      * removeCart
      *
      * @param mixed $request
-     * @return void
+     * @return JsonResponse
      */
     public function removeCart(Request $request): JsonResponse
     {
@@ -126,7 +122,7 @@ class CartController extends Controller
      * removeAllCart
      *
      * @param mixed $request
-     * @return void
+     * @return JsonResponse
      */
     public function removeAllCart(Request $request): JsonResponse
     {
