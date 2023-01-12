@@ -8,23 +8,31 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Interfaces\Admin\CategoryInterface;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
+    protected $category;
+    /**
+     * __construct()
+     *
+     * @return void
+     */
+    public function __construct(CategoryInterface $categoryInterface)
+    {
+        $this->category = $categoryInterface;
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return View
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        $categories = Category::latest()
-            ->when(request()->q, function ($categories) {
-            $categories = $categories->where('name', 'like', '%' . request()->q . '%');
-        })
-            ->paginate(10);
+        $categories = $this->category->index($request);
         return view('admin.category.index', [
             'categories' => $categories,
         ]);
