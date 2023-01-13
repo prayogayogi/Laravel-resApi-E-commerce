@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\CategoryRequest;
 use App\Interfaces\Admin\CategoryInterface;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
@@ -54,25 +55,9 @@ class CategoryController extends Controller
      * @param mixed $request
      * @return RedirectResponse
      */
-    public function store(Request $request): RedirectResponse
+    public function store(CategoryRequest $request): RedirectResponse
     {
-        // Validate
-        $this->validate($request, [
-            'image' => 'required|image|mimes:jpeg,jpg,png|max:2000',
-            'name' => 'required|unique:categories'
-        ]);
-
-        // Upload the image
-        $image = $request->file('image');
-        $image->storeAs('public/categories', $image->hashName());
-
-        // Save to Database
-        $category = Category::create([
-            'image' => $image->hashName(),
-            'name' => $request->input('name'),
-            'slug' => Str::slug($request->input('name'), '-')
-        ]);
-
+        $category = $this->category->store($request);
         if ($category) {
             return redirect()->route('admin.category.index')->with(['success', 'Data berhasil di simpan']);
         } else {
@@ -111,39 +96,9 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return RedirectResponse
      */
-    public function update(Request $request, Category $category): RedirectResponse
+    public function update(CategoryRequest $request, Category $category): RedirectResponse
     {
-        $this->validate($request, [
-            'name' => 'required|unique:categories,name,' . $category->id
-        ]);
-
-        // In check image null
-        if ($request->file('image') == '') {
-
-            // Update data don't image
-            $category = Category::findOrFail($category->id);
-            $category->update([
-                'name' => $request->input('name'),
-                'slug' => Str::slug($request->input('name'), '-')
-            ]);
-        } else {
-
-            // Delete image old
-            Storage::disk('local')->delete('public/categories/' . basename($category->image));
-
-            // upload image baru
-            $image = $request->file('image');
-            $image->storeAs('public/categories', $image->hashName());
-
-            // update dengan image baru
-            $category = Category::findOrFail($category->id);
-            $category->update([
-                'image'  => $image->hashName(),
-                'name'   => $request->name,
-                'slug'   => Str::slug($request->name, '-')
-            ]);
-        }
-
+        $category = $this->category->update($request, $category);
         if ($category) {
             return redirect()->route('admin.category.index')->with(['success' => 'Data berhasil di update']);
         } else {
@@ -159,9 +114,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category): JsonResponse
     {
-        Storage::disk('local')->delete('public/categories/' . basename($category->image));
-        $category->delete();
-
+        $category = $this->category->destroy($category);
         if ($category) {
             return response()->json([
                 'status' => 'success'
