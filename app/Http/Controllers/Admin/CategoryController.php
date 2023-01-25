@@ -4,24 +4,23 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Category;
 use Illuminate\View\View;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CategoryRequest;
 use App\Interfaces\Admin\CategoryInterface;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
-    protected $category;
+    private $category;
     /**
      * __construct()
      *
      * @return void
      */
-    public function __construct(CategoryInterface $categoryInterface)
+    public function __construct(CategoryInterface $categoryInterface
+    )
     {
         $this->category = $categoryInterface;
     }

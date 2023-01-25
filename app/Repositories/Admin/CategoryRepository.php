@@ -2,29 +2,27 @@
 
 namespace App\Repositories\Admin;
 
+use App\Traits\Admin;
 use App\Traits\Image;
 use App\Models\Category;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
 use App\Interfaces\Admin\CategoryInterface;
 
 class CategoryRepository implements CategoryInterface
 {
+    use Admin;
     use Image;
     const directoryImage = 'public/categories/';
+
     /**
      * index
      *
      * @param mixed $request
-     * @return categories
+     * @return $categories
      */
     public function index($request)
     {
-        $categories = Category::latest()
-            ->when(request()->q, function ($categories) {
-                $categories = $categories->where('name', 'like', '%' . request()->q . '%');
-            })
-            ->paginate(10);
+        $categories = $this->indexQuery($request, Category::latest());
         return $categories;
     }
 
