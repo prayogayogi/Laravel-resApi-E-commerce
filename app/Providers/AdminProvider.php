@@ -2,13 +2,13 @@
 
 namespace App\Providers;
 
+use App\Interfaces\Api\AuthInterface;
+use Illuminate\Support\ServiceProvider;
 use App\Interfaces\Admin\AdminInterface;
 use App\Interfaces\Admin\CategoryInterface;
 use App\Interfaces\Admin\DashboardInterface;
-use App\Repositories\Admin\AdminRepository;
 use App\Repositories\Admin\CategoryRepository;
 use App\Repositories\Admin\DashboardRepository;
-use Illuminate\Support\ServiceProvider;
 
 class AdminProvider extends ServiceProvider
 {

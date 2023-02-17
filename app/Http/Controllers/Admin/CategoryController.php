@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Category;
-use Illuminate\View\View;
+use Illuminate\View\View as ViewAlias;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
@@ -13,24 +13,24 @@ use Illuminate\Http\RedirectResponse;
 
 class CategoryController extends Controller
 {
-    private $category;
     /**
      * __construct()
      *
      * @return void
      */
-    public function __construct(CategoryInterface $categoryInterface
+    public function __construct(
+        private CategoryInterface $category
     )
     {
-        $this->category = $categoryInterface;
+        //
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @return View
+     * @return ViewAlias
      */
-    public function index(Request $request): View
+    public function index(Request $request): ViewAlias
     {
         $categories = $this->category->index($request);
         return view('admin.category.index', [
@@ -41,7 +41,7 @@ class CategoryController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return View
+     * @return ViewAlias
      */
     public function create(): View
     {
@@ -79,9 +79,9 @@ class CategoryController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Category  $category
-     * @return View
+     * @return ViewAlias
      */
-    public function edit(Category $category): View
+    public function edit(Category $category): ViewAlias
     {
         return view('admin.category.edit', [
             'category' => $category

@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Models\Customer;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
-
+use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\LoginRequest;
+use App\Repositories\Api\AuthRepository;
+use App\Http\Requests\Api\RegisterRequest;
 
 class AuthController extends Controller
 {
@@ -18,8 +16,9 @@ class AuthController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct(
+        private AuthRepository $AuthRepository
+    ) {
         $this->middleware('auth:api')->except(['register', 'login']);
     }
 
@@ -27,39 +26,12 @@ class AuthController extends Controller
      * register
      *
      * @param mixed $request
-     * @return JsonResponse
+     * @return Response
      */
-    public function register(Request $request): JsonResponse
+    public function register(RegisterRequest $request)
     {
-        $validator = Validator::make($request->input(),[
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:customers',
-            'password' => 'required|confirmed',
-        ]);
-
-        if($validator->fails()){
-            return response()->json($validator->errors(), 400);
-        }
-
-        $customer = Customer::create([
-            'name'      => $request->input('name'),
-            'email'     => $request->input('email'),
-            'password'  => Hash::make($request->input('password'))
-        ]);
-
-        $token = JWTAuth::fromUser($customer);
-
-        if($customer){
-            return response()->json([
-               'success'    => true,
-               'user'       => $customer,
-               'token'      => $token
-            ]);
-        }
-
-        return response()->json([
-           'success' => false
-        ], 409);
+        $response = $this->AuthRepository->register($request);
+        return $response;
     }
 
     /**
@@ -68,32 +40,10 @@ class AuthController extends Controller
      * @param mixed $request
      * @return JsonResponse
      */
-    public function login(Request $request): JsonResponse
+    public function login(LoginRequest $request): JsonResponse
     {
-        $validator = Validator::make($request->input(),[
-           'email'      => 'required|email',
-           'password'   => 'required'
-        ]);
-
-        if($validator->fails()){
-            return response()->json($validator->errors(), 400);
-        }
-
-        $credentials = $request->only('email','password');
-
-        $token = auth()->guard('api')->attempt($credentials);
-
-        if(!$token){
-            return response()->json([
-               'success' => false,
-               'message' => 'Email and password incorrect'
-            ], 401);
-        }
-        return response()->json([
-            'success'   => true,
-            'user'      => auth()->guard('api')->user(),
-            'token'     => $token
-        ], 201);
+        $response = $this->AuthRepository->login($request);
+        return $response;
     }
 
     /**
@@ -106,6 +56,6 @@ class AuthController extends Controller
         return response()->json([
             'success'   => true,
             'user'      => auth()->user()
-        ],200);
+        ], 200);
     }
 }

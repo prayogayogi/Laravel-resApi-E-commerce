@@ -196,6 +196,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
         App\Providers\AdminProvider::class,
+        App\Providers\ApiProveder::class,
 
     ],
 

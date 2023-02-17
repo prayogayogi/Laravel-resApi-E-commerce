@@ -21,12 +21,12 @@ class CategoryRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         if (request()->isMethod('post')) {
             $rules = [
                 'image' => 'required|image|mimes:jpeg,jpg,png|max:2000',
-                'name' => 'required|unique:categories'
+                'name'  => 'required|unique:categories'
             ];
         } elseif (request()->isMethod('PUT')) {
             $rules = [
